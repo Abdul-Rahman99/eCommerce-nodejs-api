@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
-
-//  create Schema
+// 1- Create Schema
 const brandSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Brand Required"],
-      unique: [true, "Brand must be Unique"],
-      minLength: [3, "Too Short Brand name"],
-      maxLength: [32, "Too Long Brand name"],
+      required: [true, "Brand required"],
+      unique: [true, "Brand must be unique"],
+      minlength: [3, "Too short Brand name"],
+      maxlength: [32, "Too long Brand name"],
     },
     slug: {
       type: String,
@@ -19,7 +18,5 @@ const brandSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// create Model
-const BrandModel = mongoose.model("BrandModel", brandSchema);
-
-module.exports = BrandModel;
+// 2- Create model
+module.exports = mongoose.model("Brand", brandSchema);

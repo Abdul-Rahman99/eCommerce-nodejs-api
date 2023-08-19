@@ -4,10 +4,10 @@ const subCategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      trim: true, // trim delete extra spaces
-      unique: [true, "Sub Category must be Unique"],
-      minLength: [2, "too short sub category name"],
-      maxLength: [32, "too long sub category name"],
+      trim: true,
+      unique: [true, "SubCategory must be unique"],
+      minlength: [2, "To short SubCategory name"],
+      maxlength: [32, "To long SubCategory name"],
     },
     slug: {
       type: String,
@@ -15,11 +15,11 @@ const subCategorySchema = new mongoose.Schema(
     },
     category: {
       type: mongoose.Schema.ObjectId,
-      ref: "CategroyModel",
-      required: [true, "sub category must be belonged to parent category"],
+      ref: "Category",
+      required: [true, "SubCategory must be belong to parent category"],
     },
   },
-  { timestamps: true } // creates time stamps automatically
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("SubCategoryModel", subCategorySchema);
+module.exports = mongoose.model("SubCategory", subCategorySchema);

@@ -1,5 +1,4 @@
-const router = require("express").Router();
-
+const express = require("express");
 const {
   getProductValidator,
   createProductValidator,
@@ -8,23 +7,20 @@ const {
 } = require("../utils/validators/productValidator");
 
 const {
+  getProducts,
   getProduct,
   createProduct,
-  getPeoducts,
   updateProduct,
   deleteProduct,
 } = require("../services/productService");
 
-// Routes
+const router = express.Router();
 
-router.route("/").get(getPeoducts).post(createProductValidator, createProduct);
-
+router.route("/").get(getProducts).post(createProductValidator, createProduct);
 router
   .route("/:id")
   .get(getProductValidator, getProduct)
   .put(updateProductValidator, updateProduct)
   .delete(deleteProductValidator, deleteProduct);
-
-// if any resource came with this style >>> go to subCategoriesRoute
 
 module.exports = router;

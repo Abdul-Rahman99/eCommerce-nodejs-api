@@ -1,6 +1,4 @@
-const router = require("express").Router();
-const subCategoriesRoute = require("./subCategoryRoute");
-
+const express = require("express");
 const {
   getCategoryValidator,
   createCategoryValidator,
@@ -10,26 +8,25 @@ const {
 
 const {
   getCategories,
-  createCategory,
   getCategory,
+  createCategory,
   updateCategory,
   deleteCategory,
 } = require("../services/categoryService");
+const subcategoriesRoute = require("./subCategoryRoute");
 
-// Routes
+const router = express.Router();
+
+router.use("/:categoryId/subcategories", subcategoriesRoute);
 
 router
   .route("/")
   .get(getCategories)
   .post(createCategoryValidator, createCategory);
-
 router
   .route("/:id")
   .get(getCategoryValidator, getCategory)
   .put(updateCategoryValidator, updateCategory)
   .delete(deleteCategoryValidator, deleteCategory);
-
-// if any resource came with this style >>> go to subCategoriesRoute
-router.use("/:categoryId/subcategories", subCategoriesRoute);
 
 module.exports = router;

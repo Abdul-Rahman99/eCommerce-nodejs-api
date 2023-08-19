@@ -1,5 +1,4 @@
-const router = require("express").Router();
-
+const express = require("express");
 const {
   getBrandValidator,
   createBrandValidator,
@@ -9,16 +8,15 @@ const {
 
 const {
   getBrands,
-  createBrand,
   getBrand,
+  createBrand,
   updateBrand,
   deleteBrand,
 } = require("../services/brandService");
 
-// Routes
+const router = express.Router();
 
 router.route("/").get(getBrands).post(createBrandValidator, createBrand);
-
 router
   .route("/:id")
   .get(getBrandValidator, getBrand)
