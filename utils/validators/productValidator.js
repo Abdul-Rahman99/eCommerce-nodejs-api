@@ -1,8 +1,8 @@
 const slugify = require("slugify");
 const { check, body } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const CategoryModel = require("../../models/categoryModel");
-const SubCategoryModel = require("../../models/subCategoryModel");
+const Category = require("../../models/categoryModel");
+const SubCategory = require("../../models/subCategoryModel");
 
 exports.createProductValidator = [
   check("title")
@@ -62,7 +62,7 @@ exports.createProductValidator = [
     .isMongoId()
     .withMessage("Invalid ID formate")
     .custom((categoryId) =>
-      CategoryModel.findById(categoryId).then((category) => {
+      Category.findById(categoryId).then((category) => {
         if (!category) {
           return Promise.reject(
             new Error(`No category for this id: ${categoryId}`)
@@ -76,16 +76,16 @@ exports.createProductValidator = [
     .isMongoId()
     .withMessage("Invalid ID formate")
     .custom((subcategoriesIds) =>
-      SubCategoryModel.find({
-        _id: { $exists: true, $in: subcategoriesIds },
-      }).then((result) => {
-        if (result.length < 1 || result.length !== subcategoriesIds.length) {
-          return Promise.reject(new Error(`Invalid subcategories Ids`));
+      SubCategory.find({ _id: { $exists: true, $in: subcategoriesIds } }).then(
+        (result) => {
+          if (result.length < 1 || result.length !== subcategoriesIds.length) {
+            return Promise.reject(new Error(`Invalid subcategories Ids`));
+          }
         }
-      })
+      )
     )
     .custom((val, { req }) =>
-      SubCategoryModel.find({ category: req.body.category }).then(
+      SubCategory.find({ category: req.body.category }).then(
         (subcategories) => {
           const subCategoriesIdsInDB = [];
           subcategories.forEach((subCategory) => {
@@ -120,12 +120,12 @@ exports.createProductValidator = [
 ];
 
 exports.getProductValidator = [
-  check("id").isMongoId().withMessage("Invalid ID formate"),
+  check("id").isMongoId().withMessage("Invalid ID format"),
   validatorMiddleware,
 ];
 
 exports.updateProductValidator = [
-  check("id").isMongoId().withMessage("Invalid ID formate"),
+  check("id").isMongoId().withMessage("Invalid ID format"),
   body("title")
     .optional()
     .custom((val, { req }) => {
@@ -136,6 +136,6 @@ exports.updateProductValidator = [
 ];
 
 exports.deleteProductValidator = [
-  check("id").isMongoId().withMessage("Invalid ID formate"),
+  check("id").isMongoId().withMessage("Invalid ID format"),
   validatorMiddleware,
 ];
