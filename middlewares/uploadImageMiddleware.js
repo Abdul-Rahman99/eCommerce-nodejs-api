@@ -4,6 +4,7 @@ const ApiError = require("../utils/apiError");
 const multerOptions = () => {
   const multerStorage = multer.memoryStorage();
 
+  // check if the file is image or not
   const multerFilter = function (req, file, cb) {
     if (file.mimetype.startsWith("image")) {
       cb(null, true);
@@ -12,6 +13,7 @@ const multerOptions = () => {
     }
   };
 
+  // upload itself
   const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
   return upload;
