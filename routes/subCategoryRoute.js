@@ -9,14 +9,14 @@ const {
   setCategoryIdToBody,
   createFilterObj,
 } = require("../services/subCategoryService");
-const authService = require("../services/authService");
-
 const {
   createSubCategoryValidator,
   getSubCategoryValidator,
   updateSubCategoryValidator,
   deleteSubCategoryValidator,
 } = require("../utils/validators/subCategoryValidator");
+
+const authService = require("../services/authService");
 
 // mergeParams: Allow us to access parameters on other routers
 // ex: We need to access categoryId from category router

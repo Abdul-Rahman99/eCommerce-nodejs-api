@@ -120,12 +120,12 @@ exports.createProductValidator = [
 ];
 
 exports.getProductValidator = [
-  check("id").isMongoId().withMessage("Invalid ID format"),
+  check("id").isMongoId().withMessage("Invalid ID formate"),
   validatorMiddleware,
 ];
 
 exports.updateProductValidator = [
-  check("id").isMongoId().withMessage("Invalid ID format"),
+  check("id").isMongoId().withMessage("Invalid ID formate"),
   body("title")
     .optional()
     .custom((val, { req }) => {
@@ -136,6 +136,6 @@ exports.updateProductValidator = [
 ];
 
 exports.deleteProductValidator = [
-  check("id").isMongoId().withMessage("Invalid ID format"),
+  check("id").isMongoId().withMessage("Invalid ID formate"),
   validatorMiddleware,
 ];

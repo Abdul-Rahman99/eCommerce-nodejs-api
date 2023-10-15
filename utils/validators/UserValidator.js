@@ -47,7 +47,7 @@ exports.createUserValidator = [
   check("phone")
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
-    .withMessage("Invalid phone number only accepted EG and SA Phone numbers"),
+    .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
   check("profileImg").optional(),
   check("role").optional(),
@@ -83,7 +83,7 @@ exports.updateUserValidator = [
   check("phone")
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
-    .withMessage("Invalid phone number only accepted EG and SA Phone numbers"),
+    .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
   check("profileImg").optional(),
   check("role").optional(),
@@ -92,11 +92,15 @@ exports.updateUserValidator = [
 
 exports.changeUserPasswordValidator = [
   check("id").isMongoId().withMessage("Invalid User id format"),
-  body("currentPassword").notEmpty().withMessage("Enter your current password"),
-  body("passwordConfirm").notEmpty().withMessage("Enter the password confirm"),
+  body("currentPassword")
+    .notEmpty()
+    .withMessage("You must enter your current password"),
+  body("passwordConfirm")
+    .notEmpty()
+    .withMessage("You must enter the password confirm"),
   body("password")
     .notEmpty()
-    .withMessage("Enter new password")
+    .withMessage("You must enter new password")
     .custom(async (val, { req }) => {
       // 1) Verify current password
       const user = await User.findById(req.params.id);
@@ -147,7 +151,7 @@ exports.updateLoggedUserValidator = [
   check("phone")
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
-    .withMessage("Invalid phone number only accepted EG and SA Phone numbers"),
+    .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
   validatorMiddleware,
 ];

@@ -70,6 +70,9 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({ data: document });
 });
 
+// @desc    Change User Password
+// @route   PUT /api/v1/users/:id
+// @access  Private/Protect
 exports.changeUserPassword = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(
     req.params.id,

@@ -1,5 +1,4 @@
 const express = require("express");
-
 const {
   signupValidator,
   loginValidator,
@@ -8,8 +7,8 @@ const {
 const {
   signup,
   login,
-  forgetPassword,
-  verifyPasswordResetCode,
+  forgotPassword,
+  verifyPassResetCode,
   resetPassword,
 } = require("../services/authService");
 
@@ -17,13 +16,8 @@ const router = express.Router();
 
 router.post("/signup", signupValidator, signup);
 router.post("/login", loginValidator, login);
-router.post("/forgetPassword", forgetPassword);
-router.post("/verifyResetCode", verifyPasswordResetCode);
+router.post("/forgotPassword", forgotPassword);
+router.post("/verifyResetCode", verifyPassResetCode);
 router.put("/resetPassword", resetPassword);
-// router
-//   .route("/:id")
-//   .get(getUserValidator, getUser)
-//   .put(uploadUserImage, resizeImage, updateUserValidator, updateUser)
-//   .delete(deleteUserValidator, deleteUser);
 
 module.exports = router;

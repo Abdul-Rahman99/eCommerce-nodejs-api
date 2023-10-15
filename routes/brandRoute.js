@@ -7,6 +7,7 @@ const {
 } = require("../utils/validators/brandValidator");
 
 const authService = require("../services/authService");
+
 const {
   getBrands,
   getBrand,
