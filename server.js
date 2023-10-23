@@ -1,9 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require("path");
 
 // Dependancies
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const cors = require("cors");
+const compression = require("compression");
 
 dotenv.config({ path: "config.env" });
 
@@ -11,19 +14,28 @@ const ApiError = require("./utils/apiError");
 const globalError = require("./middlewares/errorMiddleware");
 const dbConnection = require("./config/database");
 
-const categoryRoute = require("./routes/categoryRoute");
-const subCategoryRoute = require("./routes/subCategoryRoute");
-const brandRoute = require("./routes/brandRoute");
-const productRoute = require("./routes/productRoute");
-const userRoute = require("./routes/userRoute");
-const authRoute = require("./routes/authRoute");
-const reviewsRoute = require("./routes/reviewRoute");
+const mountRoutes = require("./routes");
+const { webhookCheckout } = require("./services/orderService");
 
 // connect to the DB
 dbConnection();
 
 // Express App
 const app = express();
+
+// Enable other domains to access your application
+app.use(cors());
+app.options("*", cors());
+
+// compress all responses
+app.use(compression());
+
+// Checkout webhook
+app.post(
+  "/webhook-checkout",
+  express.raw({ type: "application/json" }),
+  webhookCheckout
+);
 
 // Middlewares
 app.use(express.json()); // parsing to json
@@ -35,13 +47,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Mount Routes
-app.use("/api/v1/categories", categoryRoute);
-app.use("/api/v1/subcategories", subCategoryRoute);
-app.use("/api/v1/brands", brandRoute);
-app.use("/api/v1/products", productRoute);
-app.use("/api/v1/users", userRoute);
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/reviews", reviewsRoute);
+mountRoutes(app);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
